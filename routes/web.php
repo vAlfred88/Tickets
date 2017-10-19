@@ -14,7 +14,10 @@
 Route::get(
     '/',
     function () {
-        return view('welcome');
+        $tickets = \App\Ticket::all();
+
+        return view('welcome')
+            ->with(compact('tickets'));
     }
 );
 

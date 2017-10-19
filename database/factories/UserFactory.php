@@ -38,3 +38,21 @@ $factory->define(
         ];
     }
 );
+$factory->define(
+    App\Ticket::class,
+    function (Faker $faker) {
+        static $password;
+
+        return [
+            'title' => $faker->paragraph,
+            'body' => $faker->paragraph(5),
+            'image' => $faker->imageUrl('64', '64'),
+            'status_id' => function () {
+                return \App\Status::all()->random(1)->first()->id;
+            },
+            'category_id' => function () {
+                return \App\Category::all()->random(1)->first()->id;
+            },
+        ];
+    }
+);
