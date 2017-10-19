@@ -1,6 +1,6 @@
-#Ticket system
+# Ticket system
 
-##Install
+## Install
 Clone or download project
 
 Run ```composer install```
