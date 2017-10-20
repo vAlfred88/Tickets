@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Ticket;
+
 class CategoryController extends Controller
 {
     /**
@@ -41,9 +43,17 @@ class CategoryController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $tickets = Ticket::whereHas(
+            'category',
+            function ($category) use ($slug) {
+                return $category->whereSlug($slug);
+            }
+        )->paginate(5);
+
+        return view('tickets.index')
+            ->with(compact('tickets'));
     }
 
     /**

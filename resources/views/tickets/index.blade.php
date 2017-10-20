@@ -8,6 +8,9 @@
                 <img class="card-img-top" src="{{ $ticket->image }}" alt="Card image cap">
                 <div class="card-body">
                     <h2 class="card-title">{{ $ticket->title }}</h2>
+                    @foreach($ticket->categories as $category)
+                        <small>Category: {{ $category->name }}</small>
+                    @endforeach
                     <p class="card-text">Status: {{ $ticket->status->label }}</p>
                     <a href="{{ route('ticket.show', [$ticket->id]) }}"
                        class="btn btn-primary">Read More →</a>

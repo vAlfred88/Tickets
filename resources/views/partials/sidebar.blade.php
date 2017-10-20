@@ -20,7 +20,7 @@
                     <ul class="list-unstyled mb-0">
                         @foreach($chunk as $category)
                             <li>
-                                <a href="#">
+                                <a href="{{ route('category.show', [$category->slug]) }}">
                                     {{ $category->name }}
                                     <span class="badge">{{ $category->tickets->count() }}</span>
                                 </a>

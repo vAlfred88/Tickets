@@ -14,6 +14,7 @@
 
     <!-- Date/Time -->
     <p>Posted on {{ $ticket->created_at->diffForHumans() }}</p>
+    <p>Status: {{ $ticket->status->label }}</p>
 
     <hr>
 

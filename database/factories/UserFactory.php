@@ -53,9 +53,6 @@ $factory->define(
             'status_id' => function () {
                 return \App\Repositories\StatusesRepository::getRandomId();
             },
-            'category_id' => function () {
-                return \App\Repositories\CategoriesRepository::getRandomId();
-            },
         ];
     }
 );

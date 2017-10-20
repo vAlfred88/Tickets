@@ -21,9 +21,25 @@ class CreateTicketsTable extends Migration
                 $table->text('body');
                 $table->string('image');
                 $table->integer('user_id');
-                $table->integer('category_id');
                 $table->integer('status_id');
                 $table->timestamps();
+            }
+        );
+
+        Schema::create(
+            'category_ticket',
+            function (Blueprint $table) {
+                $table->integer('category_id')->unsigned()->index();
+                $table->foreign('category_id')
+                    ->references('id')
+                    ->on('categories')
+                    ->onDelete('cascade');
+
+                $table->integer('ticket_id')->unsigned()->index();
+                $table->foreign('ticket_id')
+                    ->references('id')
+                    ->on('tickets')
+                    ->onDelete('cascade');
             }
         );
     }
@@ -36,5 +52,6 @@ class CreateTicketsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('tickets');
+        Schema::dropIfExists('category_ticket');
     }
 }

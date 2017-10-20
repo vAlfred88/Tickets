@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Ticket;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +13,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::paginate(5);
-
-        return view('tickets.index')
-            ->with(compact('tickets'));
+        //
     }
 
     /**
@@ -28,10 +23,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('name');
-
-        return view('tickets.create')
-            ->with(compact('categories'));
+        //
     }
 
     /**
@@ -42,9 +34,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        Ticket::create($request->all);
-
-        return 'Ticket was created';
+        //
     }
 
     /**
@@ -55,10 +45,7 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $ticket = Ticket::find($id);
-
-        return view('tickets.show')
-            ->with(compact('ticket'));
+        //
     }
 
     /**

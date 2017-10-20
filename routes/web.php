@@ -17,5 +17,10 @@ Route::resource(
     'TicketController',
     ['except' => ['index']]
 );
+Route::resource(
+    'category',
+    'CategoryController',
+    ['only' => ['show']]
+);
 
 Auth::routes();
