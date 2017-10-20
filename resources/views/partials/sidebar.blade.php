@@ -18,7 +18,7 @@
             @foreach($categories->chunk(6) as $chunk)
                 <div class="col-lg-6">
                     @can('create', \App\Category::class)
-                        <a href="#" class="btn btn-primary">New category</a>
+                        <a href="#" class="btn-sm btn-primary">New category</a>
                     @endcan
                     <ul class="list-unstyled mb-0">
                         @foreach($chunk as $category)

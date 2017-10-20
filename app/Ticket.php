@@ -27,4 +27,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getCategoriesListAttribute()
+    {
+        return $this->categories()->pluck('id');
+    }
 }

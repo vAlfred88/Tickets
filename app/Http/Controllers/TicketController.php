@@ -81,7 +81,12 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ticket = Ticket::find($id);
+
+        $categories = Category::pluck('name', 'id');
+
+        return view('tickets.edit')
+            ->with(compact('ticket', 'categories'));
     }
 
     /**
@@ -93,7 +98,12 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $ticket = Ticket::find($id);
+
+        $ticket->fill($request->all())->save();
+        $ticket->categories()->sync($request->input('categories_list'));
+
+        return redirect()->back();
     }
 
     /**
@@ -104,6 +114,8 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Ticket::destroy($id);
+
+        return redirect('/');
     }
 }
