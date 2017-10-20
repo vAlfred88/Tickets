@@ -20,6 +20,7 @@ class CreateTicketsTable extends Migration
                 $table->string('title');
                 $table->text('body');
                 $table->string('image');
+                $table->integer('user_id');
                 $table->integer('category_id');
                 $table->integer('status_id');
                 $table->timestamps();

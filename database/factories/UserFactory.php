@@ -44,14 +44,17 @@ $factory->define(
         static $password;
 
         return [
-            'title' => $faker->paragraph,
-            'body' => $faker->paragraph(5),
+            'title' => $faker->sentence,
+            'body' => $faker->paragraph,
             'image' => $faker->imageUrl('64', '64'),
+            'user_id' => function () {
+                return factory(\App\User::class)->create()->id;
+            },
             'status_id' => function () {
-                return \App\Status::all()->random(1)->first()->id;
+                return \App\Repositories\StatusesRepository::getRandomId();
             },
             'category_id' => function () {
-                return \App\Category::all()->random(1)->first()->id;
+                return \App\Repositories\CategoriesRepository::getRandomId();
             },
         ];
     }

@@ -11,16 +11,11 @@
 |
 */
 
-Route::get(
-    '/',
-    function () {
-        $tickets = \App\Ticket::all();
-
-        return view('welcome')
-            ->with(compact('tickets'));
-    }
+Route::get('/', 'TicketController@index');
+Route::resource(
+    'ticket',
+    'TicketController',
+    ['except' => ['index']]
 );
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
