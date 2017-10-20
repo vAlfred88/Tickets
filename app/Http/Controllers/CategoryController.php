@@ -46,7 +46,7 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $tickets = Ticket::whereHas(
-            'category',
+            'categories',
             function ($category) use ($slug) {
                 return $category->whereSlug($slug);
             }

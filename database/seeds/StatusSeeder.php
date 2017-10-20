@@ -18,7 +18,7 @@ class StatusSeeder extends Seeder
             [
                 [
                     'name' => 'new',
-                    'label' => 'Новые',
+                    'label' => 'Новый',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ],

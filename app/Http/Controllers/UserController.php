@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ticket;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -45,7 +46,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $tickets = Ticket::whereUserId(auth()->user()->id)->paginate(5);
+
+        return view('tickets.index')
+            ->with(compact('tickets'));
     }
 
     /**

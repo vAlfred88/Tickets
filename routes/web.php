@@ -23,4 +23,10 @@ Route::resource(
     ['only' => ['show']]
 );
 
+Route::resource(
+    'user',
+    'UserController',
+    ['only' => ['show']]
+);
+
 Auth::routes();

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-
+    <a href="{{ route('ticket.create') }}">Create new</a>
     @if(count($tickets))
         @foreach($tickets as $ticket)
             <div class="card mb-4">
-                <img class="card-img-top" src="{{ $ticket->image }}" alt="Card image cap">
+                <img class="card-img-top" src="{{ asset($ticket->image) }}" alt="Card image cap">
                 <div class="card-body">
                     <h2 class="card-title">{{ $ticket->title }}</h2>
                     <small>Category:
@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-footer text-muted">
                     Posted on {{ $ticket->created_at->diffForHumans() }}
-                    <a href="#">{{ $ticket->user->name }}</a>
+                    <a href="{{ route('user.show', ['id' => auth()->user()->id]) }}">{{ $ticket->user->name }}</a>
                 </div>
             </div>
 
