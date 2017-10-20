@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="{{ route('ticket.create') }}">Create new</a>
+    @can('create', \App\Ticket::class)
+        <a href="{{ route('ticket.create') }}" class="btn btn-primary">Create new</a>
+
+        <hr>
+    @endcan
     @if(count($tickets))
         @foreach($tickets as $ticket)
             <div class="card mb-4">
@@ -19,10 +23,14 @@
                 </div>
                 <div class="card-footer text-muted">
                     Posted on {{ $ticket->created_at->diffForHumans() }}
-                    <a href="{{ route('user.show', ['id' => auth()->user()->id]) }}">{{ $ticket->user->name }}</a>
+                    <a href="{{ route('user.show', ['id' => $ticket->user->id]) }}">{{ $ticket->user->name }}</a>
                 </div>
             </div>
 
+            @can('delete', $ticket)
+                <a href="#" class="btn btn-warning">Update</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            @endcan
             <hr>
         @endforeach
 
