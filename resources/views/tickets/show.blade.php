@@ -19,7 +19,7 @@
     <hr>
 
     <!-- Preview Image -->
-    <img class="img-fluid rounded" src="{{ $ticket->image }}" alt="">
+    <img class="img-fluid rounded" src="{{ asset($ticket->image) }}" alt="">
 
     <hr>
 

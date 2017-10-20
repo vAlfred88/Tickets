@@ -10,6 +10,7 @@ class Ticket extends Model
         'title',
         'body',
         'status_id',
+        'image',
     ];
 
     public function categories()
