@@ -18,7 +18,7 @@
             @foreach($categories->chunk(6) as $chunk)
                 <div class="col-lg-6">
                     @can('create', \App\Category::class)
-                        <a href="#" class="btn-sm btn-primary">New category</a>
+                        <a href="{{ route('category.create') }}" class="btn-sm btn-primary">New category</a>
                     @endcan
                     <ul class="list-unstyled mb-0">
                         @foreach($chunk as $category)
@@ -26,17 +26,24 @@
                                 <a href="{{ route('category.show', [$category->slug]) }}">
                                     {{ $category->name }}
                                     <span class="badge">{{ $category->tickets->count() }}</span>
+                                </a>
+                                <div>
                                     @can('update', $category)
-                                        <a href="" class="btn-xs btn-primary">
-                                            <i class="fa fa-cogs"></i>
-                                        </a>
+                                        <div class="form-group">
+                                            <a href="{{ route('category.edit', ['id' => $category->id]) }}"
+                                               class="btn-xs btn-primary">
+                                                <i class="fa fa-cogs"></i>
+                                            </a>
+                                        </div>
                                     @endcan
                                     @can('delete', $category)
-                                        <a href="" class="btn-xs btn-danger">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+                                        {!! Form::open(['route' => ['category.destroy', 'id' => $category->id], 'method' => 'delete', 'class' => 'form-inline']) !!}
+                                        <div class="form-group">
+                                            {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn-xs btn-danger']) !!}
+                                        </div>
+                                        {!! Form::close() !!}
                                     @endcan
-                                </a>
+                                </div>
                             </li>
                         @endforeach
                     </ul>

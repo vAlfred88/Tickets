@@ -20,7 +20,7 @@ Route::resource(
 Route::resource(
     'category',
     'CategoryController',
-    ['only' => ['show']]
+    ['expect' => ['index']]
 );
 
 Route::resource(

@@ -11,16 +11,22 @@
     @if(count($tickets))
         @foreach($tickets as $ticket)
             <div class="card mb-4">
-                <img class="card-img-top" src="{{ asset($ticket->image) }}" alt="Card image cap">
+                @isset($ticket->image)
+                    <img class="card-img-top" src="{{ asset($ticket->image) }}" alt="Card image cap">
+                @endisset
                 <div class="card-body">
                     <h2 class="card-title">{{ $ticket->title }}</h2>
-                    <small>Category:
 
-                        @foreach($ticket->categories as $category)
-                            <span class="label label-primary">{{ $category->name }}</span>
-                        @endforeach
+                    @unless($ticket->categories->isEmpty())
+                        <small>Category:
 
-                    </small>
+                            @foreach($ticket->categories as $category)
+                                <span class="label label-primary">{{ $category->name }}</span>
+                            @endforeach
+
+                        </small>
+                    @endunless
+
                     <p class="card-text">Status: {{ $ticket->status->label }}</p>
                     <a href="{{ route('ticket.show', [$ticket->id]) }}"
                        class="btn btn-primary">Read More →</a>
