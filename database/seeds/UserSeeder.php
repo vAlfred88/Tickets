@@ -23,6 +23,13 @@ class UserSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ],
+                [
+                    'name' => 'user',
+                    'email' => 'user@site.com',
+                    'password' => bcrypt('password'),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ],
             ]
         );
     }

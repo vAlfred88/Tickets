@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    protected $fillable = [
+        'title',
+        'body',
+        'status_id',
+    ];
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);

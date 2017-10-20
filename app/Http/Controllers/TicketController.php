@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TicketController extends Controller
 {
@@ -28,7 +29,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('name');
+        $categories = Category::pluck('name', 'id');
 
         return view('tickets.create')
             ->with(compact('categories'));
@@ -42,9 +43,19 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        Ticket::create($request->all);
+        $request->request->add(['status_id' => 1]);
 
-        return 'Ticket was created';
+        $ticket = auth()->user()->tickets()->create($request->all());
+
+        $path = 'uploads/users/'.auth()->user()->id.'/'.$ticket->id;
+        $imagePath = Storage::put($path, $request->file('image'));
+
+        $ticket->image = $imagePath;
+        $ticket->save();
+
+        $ticket->categories()->attach($request->input('categories'));
+
+        return redirect('/');
     }
 
     /**
