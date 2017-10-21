@@ -1,5 +1,5 @@
 <div class="form-group">
-    {!! Form::label('image', 'Title') !!}
+    {!! Form::label('image', 'Image') !!}
     {!! Form::file('image', null, ['class' => 'image']) !!}
 </div>
 

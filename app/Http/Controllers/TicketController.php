@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Status;
 use App\Ticket;
 use Illuminate\Http\Request;
 
@@ -69,8 +70,10 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id);
 
+        $statuses = Status::pluck('label', 'id');
+
         return view('tickets.show')
-            ->with(compact('ticket'));
+            ->with(compact('ticket', 'statuses'));
     }
 
     /**
@@ -84,6 +87,7 @@ class TicketController extends Controller
         $ticket = Ticket::find($id);
 
         $categories = Category::pluck('name', 'id');
+
 
         return view('tickets.edit')
             ->with(compact('ticket', 'categories'));
@@ -102,6 +106,11 @@ class TicketController extends Controller
 
         $ticket->fill($request->all())->save();
         $ticket->categories()->sync($request->input('categories_list'));
+
+        if ($request->has('statuses_list')) {
+            $ticket->status()->dissociate();
+            $ticket->status()->associate($request->input('statuses_list'));
+        }
 
         return redirect()->back();
     }

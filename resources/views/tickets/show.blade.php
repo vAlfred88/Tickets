@@ -14,12 +14,27 @@
 
     <!-- Date/Time -->
     <p>Posted on {{ $ticket->created_at->diffForHumans() }}</p>
-    <p>Status: {{ $ticket->status->label }}</p>
+    @if(auth()->user()->isAdmin())
+        {!! Form::model($ticket, ['route' => ['ticket.update', 'id' => $ticket->id], 'method' => 'put']) !!}
 
+        <div class="form-group">
+            {!! Form::label('status_id', 'Category') !!}
+            {!! Form::select('status_id', $statuses, null, ['class' => 'form-control']) !!}
+        </div>
+
+        <div class="form-group">
+            {!! Form::submit('Update', ['class' => 'form-control']) !!}
+        </div>
+        {!! Form::close() !!}
+    @else
+        <p>Status: {{ $ticket->status->label }}</p>
+    @endif
     <hr>
 
     <!-- Preview Image -->
-    <img class="img-fluid rounded" src="{{ asset($ticket->image) }}" alt="">
+    @isset($ticket->image)
+        <img class="img-fluid rounded" src="{{ asset($ticket->image) }}" alt="">
+    @endisset
 
     <hr>
 

@@ -4,7 +4,7 @@
     <h1>Add new ticket</h1>
     {!! Form::open(['route' => ['category.store'], 'enctype' => 'multipart/form-data']) !!}
 
-    @include('partials.forms.ticket')
+    @include('partials.forms.category')
 
     {!! Form::close() !!}
 @endsection
