@@ -6,6 +6,7 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\SidebarComposer;
+use App\Http\ViewComposers\StatusFormComposer;
 use App\Http\ViewComposers\TicketFormComposer;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +21,7 @@ class ComposerServiceProvider extends ServiceProvider
     {
         view()->composer('partials.sidebar', SidebarComposer::class);
         view()->composer('partials.forms.ticket', TicketFormComposer::class);
+        view()->composer('partials.forms.status', StatusFormComposer::class);
     }
 
     /**

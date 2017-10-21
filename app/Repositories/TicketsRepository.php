@@ -8,6 +8,10 @@ namespace App\Repositories;
 use App\Category;
 use App\Ticket;
 
+/**
+ * Class TicketsRepository
+ * @package App\Repositories
+ */
 class TicketsRepository
 {
     /**
@@ -25,6 +29,9 @@ class TicketsRepository
         $this->ticket = $ticket;
     }
 
+    /**
+     * @return Ticket|\Illuminate\Database\Eloquent\Builder
+     */
     public function getLatest()
     {
         return $this->ticket->latest();

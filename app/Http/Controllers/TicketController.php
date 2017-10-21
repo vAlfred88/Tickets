@@ -6,7 +6,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\TicketsRepository;
-use App\Status;
 use App\Ticket;
 use Illuminate\Http\Request;
 
@@ -99,10 +98,8 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id);
 
-        $statuses = Status::pluck('label', 'id');
-
         return view('tickets.show')
-            ->with(compact('ticket', 'statuses'));
+            ->with(compact('ticket'));
     }
 
     /**

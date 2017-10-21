@@ -14,13 +14,19 @@
 
     <!-- Date/Time -->
     <p>Posted on {{ $ticket->created_at->diffForHumans() }}</p>
+    @unless($ticket->categories->isEmpty())
+        <small>Category:
+
+            @foreach($ticket->categories as $category)
+                <span class="label label-primary">{{ $category->name }}</span>
+            @endforeach
+
+        </small>
+    @endunless
     @if(auth()->user()->isAdmin())
         {!! Form::model($ticket, ['route' => ['ticket.update', 'id' => $ticket->id], 'method' => 'put']) !!}
 
-        <div class="form-group">
-            {!! Form::label('status_id', 'Category') !!}
-            {!! Form::select('status_id', $statuses, null, ['class' => 'form-control']) !!}
-        </div>
+        @include('partials.forms.status')
 
         <div class="form-group">
             {!! Form::submit('Update', ['class' => 'form-control']) !!}
