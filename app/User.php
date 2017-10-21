@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 namespace App;
 
@@ -6,12 +9,16 @@ use App\Traits\HasRole;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/** Модель пользователей
+ *
+ * Class User
+ * @package App
+ */
 class User extends Authenticatable
 {
     use Notifiable, HasRole;
 
-    /**
-     * The attributes that are mass assignable.
+    /** Атрибуты для массового заполнения
      *
      * @var array
      */
@@ -21,8 +28,7 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
+    /** Скрытые атрибуты
      *
      * @var array
      */
@@ -31,17 +37,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /** Пользователь может иметь много тикетов
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
-    /** Check if user is admin
+    /** Проверка на роль admin
+     *
      * @return bool
      */
     public function isAdmin()

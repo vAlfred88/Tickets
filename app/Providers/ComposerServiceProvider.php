@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 namespace App\Providers;
 
@@ -15,6 +18,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('partials.sidebar', SidebarComposer::class);
+        view()->composer('partials.forms.ticket', SidebarComposer::class);
     }
 
     /**

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 namespace App\Http\Controllers;
 
@@ -7,10 +10,18 @@ use App\Status;
 use App\Ticket;
 use Illuminate\Http\Request;
 
+/**
+ * Контроллер тикетов
+ *
+ * Class TicketController
+ * @package App\Http\Controllers
+ */
 class TicketController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Вывести список всех тикетов
+     *
+     * Выводит список тикетов по 5 записей на страницу
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +34,9 @@ class TicketController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Вывести форму добавления
+     *
+     * Выводит форму для добавления нового тикета
      *
      * @return \Illuminate\Http\Response
      */
@@ -36,7 +49,9 @@ class TicketController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Сохранение тикета
+     *
+     * Сохранить новый тикет в базу данных
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -61,7 +76,9 @@ class TicketController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Показать тикет
+     *
+     * Выводит тикет с определнным ид
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -77,7 +94,9 @@ class TicketController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Показать форму редактирования
+     *
+     * Выводит форму редактирования выбранного тикета
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -94,7 +113,9 @@ class TicketController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновить тикет
+     *
+     * Записывает новые данные тикета в базу
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
@@ -116,7 +137,9 @@ class TicketController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удалить тикет
+     *
+     * Удаляет выбранные тикет
      *
      * @param  int $id
      * @return \Illuminate\Http\Response

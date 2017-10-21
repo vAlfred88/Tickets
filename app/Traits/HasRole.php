@@ -1,12 +1,21 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 namespace App\Traits;
 
+use App\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/** Дополнительный трэйт ролей
+ *
+ * @package App\Traits
+ */
 trait HasRole
 {
-    /** Assign role to user
+    /** Привязать роль к пользователю
+     *
      * @param string $role
      * @return mixed
      */
@@ -17,7 +26,8 @@ trait HasRole
         );
     }
 
-    /** User has many roles
+    /** Пользователь может иметь много ролей
+     *
      * @return BelongsToMany
      */
     public function roles()
@@ -25,16 +35,8 @@ trait HasRole
         return $this->belongsToMany(Role::class);
     }
 
-    /** Check if user has permission
-     * @param Permission $permission
-     * @return boolean
-     */
-    public function hasPermission(Permission $permission)
-    {
-        return $this->hasRole($permission->roles);
-    }
-
-    /** Check if user has role
+    /** Проверка на роль у пользователя
+     *
      * @param mixed $role
      * @return boolean
      */

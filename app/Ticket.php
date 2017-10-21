@@ -1,10 +1,13 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/** Ticket model
+/** Модель тикетов
  *
  * Class Ticket
  * @package App
@@ -12,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Ticket extends Model
 {
-    /** Fillable forms
+    /** Атрибуты для массового заполнения
      *
      * @var array
      */
@@ -23,7 +26,7 @@ class Ticket extends Model
         'image',
     ];
 
-    /** Ticket has many categories
+    /** Тикет может иметь несколько категорий
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -32,7 +35,7 @@ class Ticket extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    /** Ticket has one status
+    /** Тикет может иметь один статус
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,7 +44,7 @@ class Ticket extends Model
         return $this->belongsTo(Status::class);
     }
 
-    /** Ticket belongs to user
+    /** Тикет может быть связан с одним пользователем
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -50,7 +53,7 @@ class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
-    /** Categories list for form
+    /** Возвращает атрибут categories_list
      *
      * @return \Illuminate\Support\Collection
      */
