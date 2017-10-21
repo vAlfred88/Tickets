@@ -6,6 +6,7 @@
 namespace App\Http\ViewComposers;
 
 use App\Repositories\CategoriesRepository;
+use App\Repositories\StatusesRepository;
 use Illuminate\View\View;
 
 /** Before render side bar, get all categories and pass it to view
@@ -21,12 +22,19 @@ class SidebarComposer
     protected $categories;
 
     /**
+     * @var StatusesRepository
+     */
+    private $statuses;
+
+    /**
      * SidebarComposer constructor.
      * @param CategoriesRepository $categories
+     * @param StatusesRepository $statusesRepository
      */
-    public function __construct(CategoriesRepository $categories)
+    public function __construct(CategoriesRepository $categories, StatusesRepository $statusesRepository)
     {
         $this->categories = $categories;
+        $this->statuses = $statusesRepository;
     }
 
     /** Pass categories to view
@@ -35,6 +43,11 @@ class SidebarComposer
      */
     public function compose(View $view)
     {
-        return $view->with('categories', $this->categories->all());
+        return $view->with(
+            [
+                'categories' => $this->categories->all(),
+                'statuses' => $this->statuses->all(),
+            ]
+        );
     }
 }

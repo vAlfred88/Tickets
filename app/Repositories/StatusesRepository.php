@@ -30,4 +30,9 @@ class StatusesRepository
     {
         return $this->status->pluck('label', 'id');
     }
+
+    public function all()
+    {
+        return $this->status->all();
+    }
 }

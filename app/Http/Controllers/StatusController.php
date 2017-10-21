@@ -5,11 +5,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use App\Ticket;
-use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-
-        return view('categories.index')
-            ->with(compact('categories'));
+        //
     }
 
     /**
@@ -31,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        //
     }
 
     /**
@@ -42,23 +37,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create($request->all());
-
-        return redirect()->back();
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param $slug
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
         $tickets = Ticket::whereHas(
-            'categories',
-            function ($category) use ($slug) {
-                return $category->whereSlug($slug);
+            'status',
+            function ($status) use ($id) {
+                return $status->whereId($id);
             }
         )->paginate(5);
 
@@ -74,10 +67,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-
-        return view('categories.edit')
-            ->with(compact('category'));
+        //
     }
 
     /**
@@ -89,11 +79,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::find($id);
-
-        $category->fill($request->all())->save();
-
-        return redirect()->back();
+        //
     }
 
     /**
@@ -104,8 +90,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
-
-        return redirect()->back();
+        //
     }
 }

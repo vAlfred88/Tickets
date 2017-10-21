@@ -132,7 +132,10 @@ class TicketController extends Controller
         $ticket = Ticket::find($id);
 
         $ticket->fill($request->all())->save();
-        $ticket->categories()->sync($request->input('categories_list'));
+
+        if ($request->has('categories_list')) {
+            $ticket->categories()->sync($request->input('categories_list'));
+        }
 
         if ($request->has('statuses_list')) {
             $ticket->status()->dissociate();
