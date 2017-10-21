@@ -5,7 +5,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Repositories\TicketsRepository;
 use App\Status;
 use App\Ticket;
 use Illuminate\Http\Request;
@@ -19,6 +19,20 @@ use Illuminate\Http\Request;
 class TicketController extends Controller
 {
     /**
+     * @var TicketsRepository
+     */
+    protected $tickets;
+
+    /**
+     * TicketController constructor.
+     * @param TicketsRepository $ticketsRepository
+     */
+    public function __construct(TicketsRepository $ticketsRepository)
+    {
+        $this->tickets = $ticketsRepository;
+    }
+
+    /**
      * Вывести список всех тикетов
      *
      * Выводит список тикетов по 5 записей на страницу
@@ -27,7 +41,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::paginate(5);
+        $tickets = $this->tickets->getLatest()->paginate(5);
 
         return view('tickets.index')
             ->with(compact('tickets'));
@@ -42,8 +56,6 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('name', 'id');
-
         return view('tickets.create')
             ->with(compact('categories'));
     }
@@ -58,8 +70,6 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $request->request->add(['status_id' => 1]);
-
         $ticket = auth()->user()->tickets()->create($request->all());
 
         if ($request->has('image')) {
@@ -70,7 +80,9 @@ class TicketController extends Controller
             $ticket->fill(['image' => $imagePath])->save();
         }
 
-        $ticket->categories()->attach($request->input('categories'));
+        $ticket->categories()->attach($request->input('categories_list'));
+
+        $ticket->assignStatus('new')->save();
 
         return redirect('/');
     }
@@ -105,11 +117,8 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id);
 
-        $categories = Category::pluck('name', 'id');
-
-
         return view('tickets.edit')
-            ->with(compact('ticket', 'categories'));
+            ->with(compact('ticket'));
     }
 
     /**

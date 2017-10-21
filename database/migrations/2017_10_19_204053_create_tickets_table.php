@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +24,7 @@ class CreateTicketsTable extends Migration
                 $table->text('body');
                 $table->string('image')->nullable();
                 $table->integer('user_id');
-                $table->integer('status_id');
+                $table->integer('status_id')->nullable();
                 $table->timestamps();
             }
         );

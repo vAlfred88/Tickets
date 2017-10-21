@@ -22,7 +22,7 @@ trait HasRole
     public function assignRole($role)
     {
         return $this->roles()->save(
-            Role::whereName($role)->forstOrFail()
+            Role::whereName($role)->firstOrFail()
         );
     }
 
