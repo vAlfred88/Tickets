@@ -19,11 +19,13 @@
     @include('partials.nav')
     <div class="container">
 
+        @include('flash::message')
+
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 @yield('content')
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @include('partials.sidebar')
             </div>
         </div>
@@ -33,5 +35,9 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+
+<script>
+    $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+</script>
 </body>
 </html>

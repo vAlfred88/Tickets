@@ -12,52 +12,54 @@
 
 <!-- Categories Widget -->
 <div class="card my-4">
-    <h5 class="card-header">Categories</h5>
+    <h5 class="card-header">Категории</h5>
     <div class="card-body">
         <div class="row">
             @foreach($categories->chunk(6) as $chunk)
                 <div class="col-lg-6">
                     @can('create', \App\Category::class)
-                        <a href="{{ route('category.create') }}" class="btn-sm btn-primary">New category</a>
+                        <a href="{{ route('category.index') }}" class="btn-sm btn-primary">
+                            Категории
+                        </a>
                     @endcan
+                    <hr>
                     <ul class="list-unstyled mb-0">
                         @foreach($chunk as $category)
                             <li>
                                 <a href="{{ route('category.show', [$category->slug]) }}">
                                     {{ $category->name }}
-                                    <span class="badge">{{ $category->tickets->count() }}</span>
                                 </a>
-                                <div>
-                                    @can('update', $category)
-                                        <div class="form-group">
-                                            <a href="{{ route('category.edit', ['id' => $category->id]) }}"
-                                               class="btn-xs btn-primary">
-                                                <i class="fa fa-cogs"></i>
-                                            </a>
-                                        </div>
-                                    @endcan
-                                    @can('delete', $category)
-                                        {!! Form::open(['route' => ['category.destroy', 'id' => $category->id], 'method' => 'delete', 'class' => 'form-inline']) !!}
-                                        <div class="form-group">
-                                            {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn-xs btn-danger']) !!}
-                                        </div>
-                                        {!! Form::close() !!}
-                                    @endcan
-                                </div>
+                                <span class="badge">{{ $category->tickets->count() }}</span>
                             </li>
                         @endforeach
                     </ul>
+                    <hr>
                 </div>
             @endforeach
         </div>
     </div>
 </div>
 
-<!-- Side Widget -->
+<!-- Status Widget -->
 <div class="card my-4">
-    <h5 class="card-header">Side Widget</h5>
+    <h5 class="card-header">Статусы</h5>
     <div class="card-body">
-        You can put anything you want inside of these side widgets. They are easy to use, and feature
-        the new Bootstrap 4 card containers!
+        {{--@can('create', \App\Category::class)--}}
+        <a href="{{ route('category.create') }}" class="btn-sm btn-primary">
+            Статусы
+        </a>
+        {{--@endcan--}}
+        <hr>
+        <ul class="list-unstyled mb-0">
+            @foreach($statuses as $status)
+                <li>
+                    <a href="{{ route('status.show', ['id' => $status->id]) }}">
+                        {{ $status->label }}
+                    </a>
+                    <span class="badge">{{ $status->tickets->count() }}</span>
+                </li>
+            @endforeach
+        </ul>
+        <hr>
     </div>
 </div>

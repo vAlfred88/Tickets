@@ -36,4 +36,22 @@ class TicketsRepository
     {
         return $this->ticket->latest();
     }
+
+    /**
+     * @param $id
+     * @return Ticket|\Illuminate\Database\Eloquent\Builder
+     */
+    public function getById($id)
+    {
+        return $this->ticket->find($id);
+    }
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public function delete($id)
+    {
+        return $this->ticket->destroy($id);
+    }
 }

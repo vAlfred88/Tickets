@@ -6,7 +6,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\TicketsRepository;
-use App\Ticket;
 use Illuminate\Http\Request;
 
 /**
@@ -69,6 +68,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
+        // todo: Придумать как оптимизировать эту конструкцию
         $ticket = auth()->user()->tickets()->create($request->all());
 
         if ($request->has('image')) {
@@ -83,6 +83,8 @@ class TicketController extends Controller
 
         $ticket->assignStatus('new')->save();
 
+        flash('Ticket was created')->success();
+
         return redirect('/');
     }
 
@@ -96,7 +98,7 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = $this->tickets->getById($id);
 
         return view('tickets.show')
             ->with(compact('ticket'));
@@ -112,7 +114,7 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = $this->tickets->getById($id);
 
         return view('tickets.edit')
             ->with(compact('ticket'));
@@ -129,17 +131,30 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = $this->tickets->getById($id);
 
         $ticket->fill($request->all())->save();
-        $ticket->categories()->sync($request->input('categories_list'));
+
+        if ($request->has('categories_list')) {
+            $ticket->categories()->sync($request->input('categories_list'));
+        }
 
         if ($request->has('statuses_list')) {
             $ticket->status()->dissociate();
             $ticket->status()->associate($request->input('statuses_list'));
         }
 
-        return redirect()->back();
+        if ($request->has('image')) {
+            $path = 'uploads/users/'.auth()->user()->id.'/'.$ticket->id;
+
+            $imagePath = $request->image->store($path);
+
+            $ticket->fill(['image' => $imagePath])->save();
+        }
+
+        flash('Ticket was updated')->success();
+
+        return redirect('/');
     }
 
     /**
@@ -152,7 +167,9 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        Ticket::destroy($id);
+        $this->tickets->delete($id);
+
+        flash('Ticket was deleted')->warning();
 
         return redirect('/');
     }

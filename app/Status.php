@@ -30,7 +30,7 @@ class Status extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ticket()
+    public function tickets()
     {
         return $this->hasMany(Ticket::class);
     }

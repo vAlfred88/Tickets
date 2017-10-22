@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +22,18 @@ Route::resource(
 );
 Route::resource(
     'category',
-    'CategoryController',
-    ['expect' => ['index']]
+    'CategoryController'
 );
 
 Route::resource(
     'user',
     'UserController',
+    ['only' => ['show']]
+);
+
+Route::resource(
+    'status',
+    'StatusController',
     ['only' => ['show']]
 );
 

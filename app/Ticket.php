@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticket whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticket latest()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticket paginate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticket find($value)
  */
 class Ticket extends Model
 {
