@@ -1,48 +1,51 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Title -->
-    <h1 class="mt-4">{{ $ticket->title }}</h1>
-
-    <!-- Author -->
-    <p class="lead">
-        by
-        <a href="#">{{ $ticket->user->name }}</a>
+    <!-- Date/Time -->
+    <p>Создано {{ $ticket->created_at->diffForHumans() }}
+        пользователем
+        <a href="{{ route('user.show', ['id' => $ticket->user->id]) }}">
+            {{ $ticket->user->name }}
+        </a>
     </p>
 
     <hr>
 
-    <!-- Date/Time -->
-    <p>Posted on {{ $ticket->created_at->diffForHumans() }}</p>
-    @unless($ticket->categories->isEmpty())
-        <small>Category:
+    <h2 class="mt-4">{{ $ticket->title }}
+        <small>
+        </small>
+    </h2>
+    <p>
+        @unless($ticket->categories->isEmpty())
 
             @foreach($ticket->categories as $category)
                 <span class="label label-primary">{{ $category->name }}</span>
             @endforeach
 
-        </small>
-    @endunless
-    @if(auth()->user()->isAdmin())
-        {!! Form::model($ticket, ['route' => ['ticket.update', 'id' => $ticket->id], 'method' => 'put']) !!}
+        @endunless
+    </p>
+    {{--todo: сделать проверку через политику--}}
+    @if(!auth()->guest())
+        {!! Form::model($ticket, ['route' => ['ticket.update', 'id' => $ticket->id],
+        'method' => 'put', 'class' => 'form-inline']) !!}
 
         @include('partials.forms.status')
 
         <div class="form-group">
-            {!! Form::submit('Update', ['class' => 'form-control']) !!}
+            {!! Form::submit('Update', ['class' => 'form-control, btn btn-primary']) !!}
         </div>
         {!! Form::close() !!}
     @else
-        <p>Status: {{ $ticket->status->label }}</p>
+        Status: <span class="label label-success">{{ $ticket->status->label }}</span>
     @endif
+
     <hr>
 
     <!-- Preview Image -->
     @isset($ticket->image)
         <img class="img-fluid rounded" src="{{ asset($ticket->image) }}" alt="">
+        <hr>
     @endisset
-
-    <hr>
 
     <!-- Post Content -->
     <p class="lead">{{ $ticket->body }}</p>
