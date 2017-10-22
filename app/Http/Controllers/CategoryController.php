@@ -6,6 +6,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\CreateCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Ticket;
 use Illuminate\Http\Request;
 
@@ -37,14 +39,16 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param CreateCategoryRequest|Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
         Category::create($request->all());
 
-        return redirect()->back();
+        flash('Category was created')->success();
+
+        return redirect(route('category.index'));
     }
 
     /**
@@ -83,17 +87,19 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param UpdateCategoryRequest $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
         $category = Category::find($id);
 
         $category->fill($request->all())->save();
 
-        return redirect()->back();
+        flash('Category was updated')->success();
+
+        return redirect(route('category.index'));
     }
 
     /**

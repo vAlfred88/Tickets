@@ -5,7 +5,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketRequest;
 use App\Repositories\TicketsRepository;
+use App\Ticket;
 use Illuminate\Http\Request;
 
 /**
@@ -63,13 +65,15 @@ class TicketController extends Controller
      *
      * Сохранить новый тикет в базу данных
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param TicketRequest|Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
         // todo: Придумать как оптимизировать эту конструкцию
-        $ticket = auth()->user()->tickets()->create($request->all());
+        $ticket = new Ticket();
+
+        $ticket->fill($request->all());
 
         if ($request->has('image')) {
             $path = 'uploads/users/'.auth()->user()->id.'/'.$ticket->id;
@@ -79,9 +83,13 @@ class TicketController extends Controller
             $ticket->fill(['image' => $imagePath])->save();
         }
 
-        $ticket->categories()->attach($request->input('categories_list'));
+        $ticket->assignStatus('new');
 
-        $ticket->assignStatus('new')->save();
+        $ticket->user()->associate(auth()->user())->save();
+
+        if ($request->has('categories_list')) {
+            $ticket->categories()->attach($request->input('categories_list'));
+        }
 
         flash('Ticket was created')->success();
 
@@ -125,11 +133,11 @@ class TicketController extends Controller
      *
      * Записывает новые данные тикета в базу
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param TicketRequest|Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TicketRequest $request, $id)
     {
         $ticket = $this->tickets->getById($id);
 
