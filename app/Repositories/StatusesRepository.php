@@ -35,4 +35,13 @@ class StatusesRepository
     {
         return $this->status->all();
     }
+
+    /** Возвращает случайную категорию
+     *
+     * @return mixed
+     */
+    public static function getRandomId()
+    {
+        return Status::inRandomOrder()->first()->id;
+    }
 }

@@ -25,7 +25,9 @@
         @endunless
     </p>
     {{--todo: сделать проверку через политику--}}
-    @if(!auth()->guest())
+    @if(auth()->guest() || auth()->user()->hasRole('user'))
+        Status: <span class="label label-success">{{ $ticket->status->label }}</span>
+    @elseif(auth()->user()->isAdmin())
         {!! Form::model($ticket, ['route' => ['ticket.update', 'id' => $ticket->id],
         'method' => 'put', 'class' => 'form-inline']) !!}
 
@@ -35,8 +37,6 @@
             {!! Form::submit('Update', ['class' => 'form-control, btn btn-primary']) !!}
         </div>
         {!! Form::close() !!}
-    @else
-        Status: <span class="label label-success">{{ $ticket->status->label }}</span>
     @endif
 
     <hr>

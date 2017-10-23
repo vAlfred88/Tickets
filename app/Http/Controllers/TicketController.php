@@ -9,6 +9,7 @@ use App\Http\Requests\TicketRequest;
 use App\Repositories\TicketsRepository;
 use App\Ticket;
 use Illuminate\Http\Request;
+use Storage;
 
 /**
  * Контроллер тикетов
@@ -70,22 +71,19 @@ class TicketController extends Controller
      */
     public function store(TicketRequest $request)
     {
-        // todo: Придумать как оптимизировать эту конструкцию
         $ticket = new Ticket();
 
         $ticket->fill($request->all());
 
-        if ($request->has('image')) {
-            $path = 'uploads/users/'.auth()->user()->id.'/'.$ticket->id;
-
-            $imagePath = $request->image->store($path);
-
-            $ticket->fill(['image' => $imagePath])->save();
-        }
-
         $ticket->assignStatus('new');
 
         $ticket->user()->associate(auth()->user())->save();
+
+        if ($request->has('image')) {
+            $path = 'uploads/users/'.auth()->user()->id.'/'.$ticket->id;
+
+            $ticket->fill(['image' => $request->file('image')->store($path)])->save();
+        }
 
         if ($request->has('categories_list')) {
             $ticket->categories()->attach($request->input('categories_list'));
@@ -155,9 +153,7 @@ class TicketController extends Controller
         if ($request->has('image')) {
             $path = 'uploads/users/'.auth()->user()->id.'/'.$ticket->id;
 
-            $imagePath = $request->image->store($path);
-
-            $ticket->fill(['image' => $imagePath])->save();
+            $ticket->fill(['image' => $request->file('image')->store($path)]);
         }
 
         flash('Ticket was updated')->success();
@@ -175,7 +171,13 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        $this->tickets->delete($id);
+        $ticket = $this->tickets->getById($id);
+
+        $path = 'uploads/users/'.$ticket->user->id.'/'.$id.'/';
+
+        Storage::deleteDirectory($path);
+
+        $ticket->delete($id);
 
         flash('Ticket was deleted')->warning();
 
