@@ -19,4 +19,15 @@ class StatusPolicy
 
         return false;
     }
+
+    /**
+     * Determine whether the user can create categories.
+     *
+     * @param  \App\User $user
+     * @return mixed
+     */
+    public function create(User $user)
+    {
+        //
+    }
 }

@@ -5,6 +5,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateStatusRequest;
+use App\Http\Requests\UpdateStatusRequest;
+use App\Status;
 use App\Ticket;
 
 class StatusController extends Controller
@@ -16,7 +19,10 @@ class StatusController extends Controller
      */
     public function index()
     {
-        //
+        $statuses = Status::all();
+
+        return view('statuses.index')
+            ->with(compact('statuses'));
     }
 
     /**
@@ -26,18 +32,22 @@ class StatusController extends Controller
      */
     public function create()
     {
-        //
+        return view('statuses.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param CreateStatusRequest|\Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateStatusRequest $request)
     {
-        //
+        Status::create($request->all());
+
+        flash('Status was created')->success();
+
+        return redirect(route('status.index'));
     }
 
     /**
@@ -67,19 +77,28 @@ class StatusController extends Controller
      */
     public function edit($id)
     {
-        //
+        $status = Status::find($id);
+
+        return view('statuses.edit')
+            ->with(compact('status'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param UpdateStatusRequest $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateStatusRequest $request, $id)
     {
-        //
+        $status = Status::find($id);
+
+        $status->fill($request->all())->save();
+
+        flash('Status was updated')->success();
+
+        return redirect(route('status.index'));
     }
 
     /**
@@ -90,6 +109,8 @@ class StatusController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Status::destroy($id);
+
+        return redirect()->back();
     }
 }

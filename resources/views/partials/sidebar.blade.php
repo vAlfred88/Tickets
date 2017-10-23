@@ -42,11 +42,11 @@
 <div class="card my-4">
     <h5 class="card-header">Статусы</h5>
     <div class="card-body">
-        {{--@can('create', \App\Category::class)--}}
-        <a href="{{ route('category.create') }}" class="btn-sm btn-primary">
+        @can('create', \App\Status::class)
+            <a href="{{ route('status.index') }}" class="btn-sm btn-primary">
             Статусы
         </a>
-        {{--@endcan--}}
+        @endcan
         <hr>
         <ul class="list-unstyled mb-0">
             @foreach($statuses as $status)

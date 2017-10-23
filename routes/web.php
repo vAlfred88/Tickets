@@ -33,8 +33,7 @@ Route::resource(
 
 Route::resource(
     'status',
-    'StatusController',
-    ['only' => ['show']]
+    'StatusController'
 );
 
 Auth::routes();

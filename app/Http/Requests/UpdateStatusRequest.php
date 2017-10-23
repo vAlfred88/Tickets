@@ -7,7 +7,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateStatusRequest extends FormRequest
+class UpdateStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class CreateStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:3|max:15|required|unique:statuses',
+            'name' => 'string|min:3|max:15|required',
             'label' => 'min:3|max:15|required',
         ];
     }
