@@ -26,20 +26,24 @@
                     <td>
                         {!! Form::open(['route' => ['status.destroy', 'id' => $status->id], 'method' => 'delete', 'class' => 'form-inline']) !!}
 
-                        <div class="form-group">
-                            <a href="{{ route('status.edit', ['id' => $status->id]) }}"
-                               class="btn-xs btn-primary">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-                        </div>
+                        @can('update', $status)
+                            <div class="form-group">
+                                <a href="{{ route('status.edit', ['id' => $status->id]) }}"
+                                   class="btn-xs btn-primary">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </div>
+                        @endcan
 
-                        <div class="form-group">
-                            <a href="#"
-                               class="btn-xs btn-danger"
-                               onclick="$(this).closest('form').submit()">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                        </div>
+                        @can('delete', $status)
+                            <div class="form-group">
+                                <a href="#"
+                                   class="btn-xs btn-danger"
+                                   onclick="$(this).closest('form').submit()">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        @endcan
 
                         {!! Form::close() !!}
                     </td>
