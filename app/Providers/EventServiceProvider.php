@@ -1,7 +1,13 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 namespace App\Providers;
 
+use App\Events\CreatedTicketEvent;
+use App\Listeners\TicketMailToAdminListener;
+use App\Listeners\TicketMailToUserListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -12,8 +18,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Event' => [
-            'App\Listeners\EventListener',
+        CreatedTicketEvent::class => [
+            TicketMailToAdminListener::class,
+            TicketMailToUserListener::class,
         ],
     ];
 

@@ -26,6 +26,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Status extends Model
 {
+    protected $fillable = [
+        'name',
+        'label',
+    ];
+
     /** Статус может иметь несколько тикетов
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

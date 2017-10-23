@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 namespace App\Providers;
 
@@ -14,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Ticket' => 'App\Policies\TicketPolicy',
         'App\Category' => 'App\Policies\CategoryPolicy',
+        'App\Status' => 'App\Policies\StatusPolicy',
     ];
 
     /**
@@ -24,7 +28,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
     }
 }

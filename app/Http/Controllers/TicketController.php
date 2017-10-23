@@ -5,8 +5,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketRequest;
 use App\Repositories\TicketsRepository;
+use App\Ticket;
 use Illuminate\Http\Request;
+use Storage;
 
 /**
  * Контроллер тикетов
@@ -63,25 +66,28 @@ class TicketController extends Controller
      *
      * Сохранить новый тикет в базу данных
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param TicketRequest|Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
-        // todo: Придумать как оптимизировать эту конструкцию
-        $ticket = auth()->user()->tickets()->create($request->all());
+        $ticket = new Ticket();
+
+        $ticket->fill($request->all());
+
+        $ticket->assignStatus('new');
+
+        $ticket->user()->associate(auth()->user())->save();
 
         if ($request->has('image')) {
             $path = 'uploads/users/'.auth()->user()->id.'/'.$ticket->id;
 
-            $imagePath = $request->image->store($path);
-
-            $ticket->fill(['image' => $imagePath])->save();
+            $ticket->fill(['image' => $request->file('image')->store($path)])->save();
         }
 
-        $ticket->categories()->attach($request->input('categories_list'));
-
-        $ticket->assignStatus('new')->save();
+        if ($request->has('categories_list')) {
+            $ticket->categories()->attach($request->input('categories_list'));
+        }
 
         flash('Ticket was created')->success();
 
@@ -125,11 +131,11 @@ class TicketController extends Controller
      *
      * Записывает новые данные тикета в базу
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param TicketRequest|Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TicketRequest $request, $id)
     {
         $ticket = $this->tickets->getById($id);
 
@@ -147,9 +153,7 @@ class TicketController extends Controller
         if ($request->has('image')) {
             $path = 'uploads/users/'.auth()->user()->id.'/'.$ticket->id;
 
-            $imagePath = $request->image->store($path);
-
-            $ticket->fill(['image' => $imagePath])->save();
+            $ticket->fill(['image' => $request->file('image')->store($path)]);
         }
 
         flash('Ticket was updated')->success();
@@ -167,7 +171,13 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        $this->tickets->delete($id);
+        $ticket = $this->tickets->getById($id);
+
+        $path = 'uploads/users/'.$ticket->user->id.'/'.$id.'/';
+
+        Storage::deleteDirectory($path);
+
+        $ticket->delete($id);
 
         flash('Ticket was deleted')->warning();
 

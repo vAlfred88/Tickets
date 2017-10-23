@@ -21,7 +21,7 @@ class CreateTicketsTable extends Migration
             function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('title');
-                $table->text('body');
+                $table->text('body')->nullable();
                 $table->string('image')->nullable();
                 $table->integer('user_id');
                 $table->integer('status_id')->nullable();

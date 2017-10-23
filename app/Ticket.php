@@ -5,11 +5,12 @@
 
 namespace App;
 
+use App\Events\CreatedTicketEvent;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Модель тикетов
- * 
+ *
  * @package App
  * @mixin /Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $categories
@@ -49,6 +50,13 @@ class Ticket extends Model
         'image',
     ];
 
+    /**
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'saved' => CreatedTicketEvent::class,
+    ];
+
     /** Тикет может иметь несколько категорий
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -85,6 +93,10 @@ class Ticket extends Model
         return $this->categories()->pluck('id');
     }
 
+    /**
+     * @param $status
+     * @return Model
+     */
     public function assignStatus($status)
     {
         return $this->status()->associate(

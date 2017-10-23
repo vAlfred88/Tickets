@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright (c) 2017. Created by vAlfred88
+ */
 
 namespace App\Policies;
 
@@ -67,6 +70,6 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket)
     {
-        //
+        return false;
     }
 }

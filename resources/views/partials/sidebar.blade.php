@@ -15,27 +15,25 @@
     <h5 class="card-header">Категории</h5>
     <div class="card-body">
         <div class="row">
-            @foreach($categories->chunk(6) as $chunk)
-                <div class="col-lg-6">
-                    @can('create', \App\Category::class)
-                        <a href="{{ route('category.index') }}" class="btn-sm btn-primary">
-                            Категории
-                        </a>
-                    @endcan
-                    <hr>
-                    <ul class="list-unstyled mb-0">
-                        @foreach($chunk as $category)
-                            <li>
-                                <a href="{{ route('category.show', [$category->slug]) }}">
-                                    {{ $category->name }}
-                                </a>
-                                <span class="badge">{{ $category->tickets->count() }}</span>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <hr>
-                </div>
-            @endforeach
+            <div class="col-lg-6">
+                @can('create', \App\Category::class)
+                    <a href="{{ route('category.index') }}" class="btn-sm btn-primary">
+                        Категории
+                    </a>
+                @endcan
+                <hr>
+                <ul class="list-unstyled mb-0">
+                    @foreach($categories as $category)
+                        <li>
+                            <a href="{{ route('category.show', [$category->slug]) }}">
+                                {{ $category->name }}
+                            </a>
+                            <span class="badge">{{ $category->tickets->count() }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+                <hr>
+            </div>
         </div>
     </div>
 </div>
@@ -44,11 +42,11 @@
 <div class="card my-4">
     <h5 class="card-header">Статусы</h5>
     <div class="card-body">
-        {{--@can('create', \App\Category::class)--}}
-        <a href="{{ route('category.create') }}" class="btn-sm btn-primary">
+        @can('create', \App\Status::class)
+            <a href="{{ route('status.index') }}" class="btn-sm btn-primary">
             Статусы
         </a>
-        {{--@endcan--}}
+        @endcan
         <hr>
         <ul class="list-unstyled mb-0">
             @foreach($statuses as $status)
